@@ -4,8 +4,17 @@
 <iframe id="finish" style="z-index:-1"></iframe>
 
 <script>
-document.getElementsByTagName("a").onclick = function() { alert("moot!"); };
 
+var update = document.getElementsByTagName("a");
+for( var i = 0; i < update.length; ++i ) {
+    update[i].onclick = function() { 
+        alert("moot!");
+    }
+}
+function myFunction() {
+
+}
+  
   function httpGet(url)  {
       var xmlHttp = new XMLHttpRequest()
       xmlHttp.open( "GET", url, false )

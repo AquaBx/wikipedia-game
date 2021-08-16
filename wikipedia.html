@@ -1,0 +1,80 @@
+<div><h2 id="text"></h2><h2 id="demo"></h2></div>
+
+<iframe id="start"></iframe>
+<iframe id="finish" style="z-index:-1"></iframe>
+
+<script>
+
+  function httpGet(url)  {
+      var xmlHttp = new XMLHttpRequest()
+      xmlHttp.open( "GET", url, false )
+      xmlHttp.send( null )
+      var rep = xmlHttp.responseText
+      var json = JSON.parse(rep)["query"]["pages"]
+      var link = json[Object.keys(json)[0]]["fullurl"].replace("https://fr", "https://fr.m");
+
+      var title = json[Object.keys(json)[0]]["title"]
+      return [link , title]
+
+
+  }
+
+var url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=info&inprop=url&generator=random&grnnamespace=0&origin=*"
+
+var link1 = httpGet(url)
+var link2 = httpGet(url)
+
+
+document.getElementById("text").innerHTML = "De " + link1[1] + " à " + link2[1]
+
+document.getElementById("start").src = link1[0]
+document.getElementById("finish").src = link2[0]
+
+function myTimer() {
+  var d = 0
+  setInterval(function(){
+    d = d + 0.1
+    d = Math.round(d*10)/10
+    document.getElementById("demo").innerHTML = d + " seconds";
+  },100)
+
+}
+myTimer()
+
+</script>
+
+
+<style>
+
+  @import url("https://fonts.googleapis.com/css2?family=Google+Sans");
+
+*{
+    transition: all 0.2s;
+}
+
+body{
+  font-family: 'Google Sans';
+  margin:0;
+  display:flex;
+}
+
+div{
+  display : block;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  background-color:grey;
+}
+
+div>h2{
+  text-align:center;
+}
+
+iframe{
+  flex:1;
+  height:100%;
+  border:none;
+}
+
+</style>

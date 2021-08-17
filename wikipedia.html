@@ -21,7 +21,8 @@ function httpGet(url)  {
       var link = json[Object.keys(json)[0]]["fullurl"].replace("https://fr", "https://fr.m");
 
       var title = json[Object.keys(json)[0]]["title"]
-      return [link , title]
+      var title2 = link.split('title=')[1]
+      return [link , title, title2]
 
 
   }

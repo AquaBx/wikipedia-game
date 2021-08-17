@@ -4,51 +4,65 @@
 <iframe id="finish" style="z-index:-1"></iframe>
 
 <script>
-
-var update = document.getElementsByTagName("a");
-for( var i = 0; i < update.length; ++i ) {
-    update[i].onclick = function() { 
-        alert("moot!");
-    }
-}
-  
-function httpGet(url)  {
-      var xmlHttp = new XMLHttpRequest()
-      xmlHttp.open( "GET", url, false )
-      xmlHttp.send( null )
-      var rep = xmlHttp.responseText
-      var json = JSON.parse(rep)["query"]["pages"]
-      var link = json[Object.keys(json)[0]]["fullurl"].replace("https://fr", "https://fr.m");
-
-      var title = json[Object.keys(json)[0]]["title"]
-      var title2 = link.split('title=')[1]
-      return [link , title, title2]
-
-
-  }
-
-var url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=info&inprop=url&generator=random&grnnamespace=0&origin=*"
-
-var link1 = httpGet(url)
-var link2 = httpGet(url)
-
-
-document.getElementById("text").innerHTML = "De " + link1[1] + " à " + link2[1]
-
-document.getElementById("start").src = link1[0]
-document.getElementById("finish").src = link2[0]
-
 function myTimer() {
   var d = 0
   setInterval(function(){
     d = d + 0.1
     d = Math.round(d*10)/10
     document.getElementById("demo").innerHTML = d + " seconds";
-  },100)
+  },100)}
+    
+var quests = 0
+var url = new URLSearchParams(location.search)
+for(var pair of url.entries()) {
+        if(pair[0] == "q1"){
+            var q1 = pair[1]
+            quests +=1
+        }
+        else if(pair[0] == "q2"){
+            var q2 = pair[1]
+            quests +=1
+        }
+        else if(pair[0] == "t1"){
+            var t1 = pair[1]
+            quests +=1
+        }
+        else if(pair[0] == "t2"){
+            var t2 = pair[1]
+            quests +=1
+        }
+}    
+    
+if (quests != 4){
+    function httpGet(url)  {
+        var xmlHttp = new XMLHttpRequest()
+        xmlHttp.open( "GET", url, false )
+        xmlHttp.send( null )
+        var rep = xmlHttp.responseText
+        var json = JSON.parse(rep)["query"]["pages"]
 
+        var title = json[Object.keys(json)[0]]["title"]
+        var title2 = json[Object.keys(json)[0]]["editurl"].split('title=')[1]
+        return [title, title2]
+    }
+
+    var url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=info&inprop=url&generator=random&grnnamespace=0&origin=*"
+
+    var link1 = httpGet(url)
+    var link2 = httpGet(url)
+    location.search = "?q1="+link1[1]+"&q2="+link2[1]+"&t1="+link1[0]+"&t2="+link2[0]
 }
-myTimer()
+else{
+    var url1 = "https://fr.wikipedia.org/wiki/" + q1
+    var url2 = "https://fr.wikipedia.org/wiki/" + q2
 
+    document.getElementById("text").innerHTML = "De " + t1 + " à " + t2
+    document.getElementById("start").src = url1
+    document.getElementById("finish").src = url2
+
+
+    myTimer()
+}
 </script>
 
 

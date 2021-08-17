@@ -53,8 +53,8 @@ if (quests != 4){
     location.search = "?q1="+link1[1]+"&q2="+link2[1]+"&t1="+link1[0]+"&t2="+link2[0]
 }
 else{
-    var url1 = "https://fr.wikipedia.org/wiki/" + q1
-    var url2 = "https://fr.wikipedia.org/wiki/" + q2
+    var url1 = "cleanpage.php?lang=fr&title=" + q1
+    var url2 = "cleanpage.php?lang=fr&title=" + q2
 
     document.getElementById("text").innerHTML = "De " + t1 + " à " + t2
     document.getElementById("start").src = url1

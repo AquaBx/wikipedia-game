@@ -1,7 +1,13 @@
-<div><h2 id="text"></h2><h2 id="demo"></h2></div>
+<meta charset="UTF-8">
 
-<iframe id="start"></iframe>
-<iframe id="finish" style="z-index:-1"></iframe>
+<div class="navbar">
+    <h2 id="text"></h2>
+    <h2 id="demo"></h2>
+</div>
+<div class="container">
+    <iframe id="start"></iframe>
+    <iframe id="finish" style="z-index:-1"></iframe>
+</div>
 
 <script>
 function myTimer() {
@@ -13,7 +19,7 @@ function myTimer() {
   },100)}
     
 var quests = 0
-var url = new URLSearchParams(location.search)
+var url = new URLSearchParams(atob(location.search.replace("?q=","")))
 for(var pair of url.entries()) {
         if(pair[0] == "q1"){
             var q1 = pair[1]
@@ -50,7 +56,7 @@ if (quests != 4){
 
     var link1 = httpGet(url)
     var link2 = httpGet(url)
-    location.search = "?q1="+link1[1]+"&q2="+link2[1]+"&t1="+link1[0]+"&t2="+link2[0]
+    location.search = "?q=" + btoa("?q1="+link1[1]+"&q2="+link2[1]+"&t1="+link1[0]+"&t2="+link2[0])
 }
 else{
     var url1 = "cleanpage.php?lang=fr&title=" + q1
@@ -77,20 +83,25 @@ else{
 body{
   font-family: 'Google Sans';
   margin:0;
-  display:flex;
 }
 
-div{
+.navbar{
   display : block;
-  position:absolute;
+  padding:15px 0;
   top:0;
   left:0;
   width:100%;
   background-color:grey;
 }
 
-div>h2{
+.navbar>h2{
   text-align:center;
+}
+
+.container{
+    display:flex;
+    width:100%;
+    height:80%;
 }
 
 iframe{
